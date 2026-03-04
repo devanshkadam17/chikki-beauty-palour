@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Phone, 
@@ -19,8 +19,8 @@ import {
 import confetti from 'canvas-confetti';
 
 // --- Constants ---
-const PHONE_NUMBER = "919876543210"; // Placeholder
-const LOCATION = "Elegant Plaza, MG Road, Pune";
+const PHONE_NUMBER = "918341251164";
+const LOCATION = "17, 1016, Tilak Nagar, Guntakal, Andhra Pradesh 515801";
 const BUSINESS_NAME = "Chikki Beauty Parlour & Tailoring";
 
 const SERVICES = {
@@ -53,8 +53,7 @@ const Navbar = () => {
     { name: 'Home', href: '#home' },
     { name: 'Services', href: '#services' },
     { name: 'Booking', href: '#booking' },
-    { name: 'Marriage Bureau', href: '#marriage' },
-    { name: 'Gallery', href: '#gallery' },
+    { name: 'Wedding Makeup', href: '#wedding-makeup' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -140,14 +139,14 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
         >
           <span className="inline-block px-4 py-1 rounded-full bg-rose-gold/10 text-rose-gold text-sm font-semibold tracking-wider uppercase mb-6">
-            Beauty | Tailoring | Marriage Bureau
+            Beauty | Tailoring | Wedding Makeup
           </span>
           <h1 className="font-display text-5xl md:text-7xl font-bold text-stone-900 mb-6 leading-tight">
             Enhance Your Beauty & <br />
-            <span className="text-rose-gold italic">Find Your Perfect Match</span>
+            <span className="text-rose-gold italic">Shine on Your Special Day</span>
           </h1>
           <p className="text-lg text-stone-600 mb-10 max-w-2xl mx-auto">
-            Experience the finest bridal services, custom tailoring, and trusted matrimonial matches all under one roof.
+            Experience the finest bridal services, custom tailoring, and professional wedding makeup for the bride and groom.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
@@ -158,11 +157,11 @@ const Hero = () => {
               Book Beauty Slot
             </a>
             <a 
-              href="#marriage" 
+              href="#wedding-makeup" 
               className="w-full sm:w-auto glass text-rose-gold border-rose-gold/30 px-10 py-4 rounded-full font-bold text-lg hover:bg-white transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-5 h-5" />
-              Register for Marriage
+              Wedding Makeup
             </a>
           </div>
         </motion.div>
@@ -236,11 +235,11 @@ const Services = () => {
           />
           <ServiceCard 
             icon={Heart}
-            title="Marriage Bureau"
-            items={["Bride Registration", "Groom Registration", "Verified Profiles", "Confidential Process"]}
-            buttonText="Register Now"
+            title="Wedding Makeup"
+            items={["Complete Bridal Makeup", "Groom Special Styling", "Engagement Packages", "Family Group Makeup"]}
+            buttonText="Book Wedding Slot"
             color="bg-stone-800"
-            onClick={() => document.getElementById('marriage')?.scrollIntoView()}
+            onClick={() => document.getElementById('wedding-makeup')?.scrollIntoView()}
           />
         </div>
       </div>
@@ -497,181 +496,79 @@ const TailoringForm = () => {
   );
 };
 
-const MarriageBureauForm = () => {
-  const [step, setStep] = useState(1);
+const WeddingMakeupForm = () => {
   const [formData, setFormData] = useState({
-    name: '', age: '', gender: '', phone: '', location: '',
-    education: '', occupation: '', religion: '', caste: '', height: '',
-    prefAge: '', prefLocation: '', prefNotes: ''
+    name: '',
+    phone: '',
+    type: '', // Bridal, Groom, Both
+    date: '',
+    people: '1',
+    location: 'Parlour', // Parlour or Venue
+    notes: ''
   });
 
-  const nextStep = () => setStep(s => s + 1);
-  const prevStep = () => setStep(s => s - 1);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     confetti({
-      particleCount: 200,
-      spread: 90,
-      origin: { y: 0.5 },
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
       colors: ['#f8c8dc', '#b76e79', '#ffffff']
     });
-    
-    // Store in localStorage
-    const savedProfiles = JSON.parse(localStorage.getItem('marriage_profiles') || '[]');
-    localStorage.setItem('marriage_profiles', JSON.stringify([...savedProfiles, { ...formData, id: Date.now() }]));
 
-    const text = `*NEW MARRIAGE REGISTRATION*%0A*Basic Info:*%0AName: ${formData.name}%0AAge: ${formData.age}%0AGender: ${formData.gender}%0APhone: ${formData.phone}%0ALocation: ${formData.location}%0A%0A*Personal Details:*%0AEducation: ${formData.education}%0AOccupation: ${formData.occupation}%0AReligion: ${formData.religion}%0ACaste: ${formData.caste}%0AHeight: ${formData.height}%0A%0A*Preferences:*%0APref Age: ${formData.prefAge}%0APref Location: ${formData.prefLocation}%0ANotes: ${formData.prefNotes}`;
-    
+    const text = `*NEW WEDDING MAKEUP BOOKING*%0AName: ${formData.name}%0APhone: ${formData.phone}%0APackage: ${formData.type}%0AEvent Date: ${formData.date}%0ANo. of People: ${formData.people}%0ALocation: ${formData.location}%0ANotes: ${formData.notes}`;
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${text}`, '_blank');
-    setStep(4); // Success step
   };
 
   return (
-    <section id="marriage" className="py-24 px-6 bg-cream">
+    <section id="wedding-makeup" className="py-24 px-6 bg-cream">
       <div className="max-w-4xl mx-auto glass p-8 md:p-12 rounded-[2rem] shadow-xl border-rose-gold/20">
         <div className="text-center mb-10">
           <Heart className="w-10 h-10 text-rose-gold mx-auto mb-4" />
-          <h2 className="font-display text-4xl font-bold text-stone-900 mb-2">Marriage Bureau Registration</h2>
-          <p className="text-stone-500">Your journey to a perfect match begins with a confidential profile.</p>
+          <h2 className="font-display text-4xl font-bold text-stone-900 mb-2">Wedding Makeup Booking</h2>
+          <p className="text-stone-500">Specialized makeup services for the Bride, Groom, and Family.</p>
         </div>
 
-        {/* Progress Bar */}
-        <div className="flex items-center justify-between mb-12 max-w-md mx-auto">
-          {[1, 2, 3].map(s => (
-            <div key={s} className="flex items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${step >= s ? 'bg-rose-gold text-white' : 'bg-stone-200 text-stone-500'}`}>
-                {s}
-              </div>
-              {s < 3 && <div className={`w-16 h-1 bg-stone-200 mx-2 ${step > s ? 'bg-rose-gold' : ''}`} />}
-            </div>
-          ))}
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <AnimatePresence mode="wait">
-            {step === 1 && (
-              <motion.div 
-                key="step1"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Full Name</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="Full name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Age</label>
-                  <input required type="number" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="Age" value={formData.age} onChange={e => setFormData({...formData, age: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Gender</label>
-                  <select required className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none bg-white" value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})}>
-                    <option value="">Select Gender</option>
-                    <option value="Female">Female</option>
-                    <option value="Male">Male</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Phone Number</label>
-                  <input required type="tel" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="WhatsApp number" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Current Location</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="City, State" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
-                </div>
-                <div className="md:col-span-2 flex justify-end">
-                  <button type="button" onClick={nextStep} className="bg-rose-gold text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2">Next Step <ChevronRight /></button>
-                </div>
-              </motion.div>
-            )}
-
-            {step === 2 && (
-              <motion.div 
-                key="step2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Highest Education</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="E.g., MBA, B.Tech" value={formData.education} onChange={e => setFormData({...formData, education: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Occupation</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="Job title" value={formData.occupation} onChange={e => setFormData({...formData, occupation: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Religion</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="Religion" value={formData.religion} onChange={e => setFormData({...formData, religion: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Caste (Optional)</label>
-                  <input type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="Caste" value={formData.caste} onChange={e => setFormData({...formData, caste: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Height</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="E.g., 5'4''" value={formData.height} onChange={e => setFormData({...formData, height: e.target.value})} />
-                </div>
-                <div className="md:col-span-2 flex justify-between">
-                  <button type="button" onClick={prevStep} className="text-stone-500 font-bold">Back</button>
-                  <button type="button" onClick={nextStep} className="bg-rose-gold text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2">Next Step <ChevronRight /></button>
-                </div>
-              </motion.div>
-            )}
-
-            {step === 3 && (
-              <motion.div 
-                key="step3"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Preferred Age Range</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="E.g., 25-30" value={formData.prefAge} onChange={e => setFormData({...formData, prefAge: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Preferred Location</label>
-                  <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="E.g., Same city, Abroad" value={formData.prefLocation} onChange={e => setFormData({...formData, prefLocation: e.target.value})} />
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-semibold text-stone-700">Additional Partner Preferences</label>
-                  <textarea className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none h-32" placeholder="Any specific requirements for your partner?" value={formData.prefNotes} onChange={e => setFormData({...formData, prefNotes: e.target.value})} />
-                </div>
-                <div className="md:col-span-2 flex justify-between">
-                  <button type="button" onClick={prevStep} className="text-stone-500 font-bold">Back</button>
-                  <button type="submit" className="bg-rose-gold text-white px-10 py-4 rounded-xl font-bold shadow-lg btn-glow">Submit Profile</button>
-                </div>
-              </motion.div>
-            )}
-
-            {step === 4 && (
-              <motion.div 
-                key="success"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="text-center py-12"
-              >
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle2 className="w-12 h-12" />
-                </div>
-                <h3 className="text-3xl font-bold text-stone-900 mb-4">Profile Submitted Successfully!</h3>
-                <p className="text-stone-600 mb-8 max-w-md mx-auto">Our marriage bureau experts will review your profile and contact you shortly for verification.</p>
-                <button 
-                  type="button" 
-                  onClick={() => { setStep(1); setFormData({ name: '', age: '', gender: '', phone: '', location: '', education: '', occupation: '', religion: '', caste: '', height: '', prefAge: '', prefLocation: '', prefNotes: '' }); }}
-                  className="text-rose-gold font-bold underline"
-                >
-                  Submit another profile
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Full Name</label>
+            <input required type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="Enter your name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Phone Number</label>
+            <input required type="tel" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" placeholder="WhatsApp number" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Select Package</label>
+            <select required className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none bg-white" value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
+              <option value="">Choose Package</option>
+              <option value="Bridal Makeup">Bridal Makeup</option>
+              <option value="Groom Makeup">Groom Makeup</option>
+              <option value="Bridal & Groom Combo">Bridal & Groom Combo</option>
+              <option value="Engagement Makeup">Engagement Makeup</option>
+              <option value="Family Makeup">Family Makeup</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Event Date</label>
+            <input required type="date" min={new Date().toISOString().split('T')[0]} className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Number of People</label>
+            <input required type="number" min="1" className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none" value={formData.people} onChange={e => setFormData({...formData, people: e.target.value})} />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Service Location</label>
+            <select required className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none bg-white" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})}>
+              <option value="Parlour">At Parlour</option>
+              <option value="Venue">At Venue (Home/Hotel)</option>
+            </select>
+          </div>
+          <div className="md:col-span-2 space-y-2">
+            <label className="text-sm font-semibold text-stone-700">Additional Instructions</label>
+            <textarea className="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none h-24" placeholder="Any specific requirements?" value={formData.notes} onChange={e => setFormData({...formData, notes: e.target.value})} />
+          </div>
+          <button type="submit" className="md:col-span-2 bg-rose-gold text-white py-4 rounded-xl font-bold text-lg shadow-lg btn-glow">Book Wedding Slot</button>
         </form>
       </div>
     </section>
@@ -731,7 +628,7 @@ const Contact = () => {
 
         <div className="h-[450px] rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.389744493722!2d73.8544!3d18.5204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDMxJzEzLjQiTiA3M8KwNTEnMTUuOCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3854.456789!2d77.37!3d15.17!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDEwJzEyLjAiTiA3N8KwMjInMTIuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 
@@ -763,7 +660,7 @@ const Footer = () => {
             <li><a href="#services" className="hover:text-soft-pink transition-colors">Bridal Makeup</a></li>
             <li><a href="#services" className="hover:text-soft-pink transition-colors">Hair Styling</a></li>
             <li><a href="#services" className="hover:text-soft-pink transition-colors">Custom Tailoring</a></li>
-            <li><a href="#marriage" className="hover:text-soft-pink transition-colors">Marriage Bureau</a></li>
+            <li><a href="#wedding-makeup" className="hover:text-soft-pink transition-colors">Wedding Makeup</a></li>
           </ul>
         </div>
 
@@ -772,7 +669,6 @@ const Footer = () => {
           <ul className="space-y-3 text-stone-400">
             <li><a href="#home" className="hover:text-soft-pink transition-colors">Home</a></li>
             <li><a href="#booking" className="hover:text-soft-pink transition-colors">Book Appointment</a></li>
-            <li><a href="#gallery" className="hover:text-soft-pink transition-colors">Gallery</a></li>
             <li><a href="#contact" className="hover:text-soft-pink transition-colors">Contact Us</a></li>
           </ul>
         </div>
@@ -872,7 +768,7 @@ export default function App() {
       <Services />
       <BookingForm />
       <TailoringForm />
-      <MarriageBureauForm />
+      <WeddingMakeupForm />
       <Contact />
       <Footer />
       <FloatingButtons />
