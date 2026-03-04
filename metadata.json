@@ -1,0 +1,7 @@
+{
+  "name": "Chikki Beauty & Marriage Bureau",
+  "description": "Premium Beauty Parlour, Tailoring, and Marriage Bureau services in one elegant platform.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
